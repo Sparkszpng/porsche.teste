@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porsche Sales Intelligence Dashboard</title>
+    <meta name="description" content="Dashboard analítico de inteligência de vendas Porsche - Elegância, refinamento e insights estratégicos.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Bar Navigation -->
+        <header class="porsche-header">
+            <div class="logo-container">
+                <span class="porsche-crest-text">PORSCHE</span>
+                <span class="porsche-subtitle">Sales Intelligence</span>
+            </div>
+            <div class="header-tagline">
+                <span>Refinamento & Performance</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace Layout -->
+        <main class="dashboard-workspace">
+            
+            <!-- Filters Sidebar -->
+            <aside class="filters-sidebar">
+                <div class="sidebar-header">
+                    <i class="fa-solid fa-sliders"></i>
+                    <h2>Filtros de Seleção</h2>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filter-model"><i class="fa-solid fa-car"></i> Modelo Porsche</label>
+                    <select id="filter-model" class="porsche-select">
+                        <option value="">Todos os Modelos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-year"><i class="fa-solid fa-calendar-days"></i> Ano do Modelo</label>
+                    <select id="filter-year" class="porsche-select">
+                        <option value="">Todos os Anos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-city"><i class="fa-solid fa-location-dot"></i> Cidade de Venda</label>
+                    <select id="filter-city" class="porsche-select">
+                        <option value="">Todas as Cidades</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-payment"><i class="fa-solid fa-credit-card"></i> Método de Pagamento</label>
+                    <select id="filter-payment" class="porsche-select">
+                        <option value="">Todos os Métodos</option>
+                    </select>
+                </div>
+
+                <button id="btn-clear-filters" class="porsche-btn-secondary">
+                    <i class="fa-solid fa-rotate-left"></i> Limpar Filtros
+                </button>
+
+                <div class="sidebar-footer">
+                    <span id="active-filters-count">Exibindo 100 de 100 registros</span>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content -->
+            <section class="dashboard-content">
+                
+                <!-- KPI Panel -->
+                <div class="kpi-container">
+                    <div class="kpi-card" id="kpi-revenue">
+                        <div class="kpi-icon"><i class="fa-solid fa-wallet"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Faturamento Total</span>
+                            <h3 class="kpi-value" id="val-revenue">$0.00</h3>
+                        </div>
+                    </div>
+                    <div class="kpi-card" id="kpi-sales">
+                        <div class="kpi-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Vendas Realizadas</span>
+                            <h3 class="kpi-value" id="val-sales">0</h3>
+                        </div>
+                    </div>
+                    <div class="kpi-card" id="kpi-avg-price">
+                        <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Preço Médio por Carro</span>
+                            <h3 class="kpi-value" id="val-avg-price">$0.00</h3>
+                        </div>
+                    </div>
+                    <div class="kpi-card" id="kpi-top-model">
+                        <div class="kpi-icon"><i class="fa-solid fa-trophy"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Modelo Mais Vendido</span>
+                            <h3 class="kpi-value" id="val-top-model">-</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-card large">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-chart-bar"></i> Vendas por Modelo Porsche</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="chart-models"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-circle-notch"></i> Métodos de Pagamento</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="chart-payments"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Insights Section (Perguntas da Planilha) -->
+                <div class="insights-section">
+                    <div class="section-title">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h2>Insights Estratégicos & Análise do Período</h2>
+                    </div>
+
+                    <div class="insights-grid">
+                        
+                        <!-- Question 1: Principais Modelos por Cidades -->
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-number">01</div>
+                                <h4>Modelos Líderes por Cidade</h4>
+                            </div>
+                            <p class="insight-desc">Distribuição geográfica dos 3 modelos mais vendidos nas principais capitais e cidades registradas.</p>
+                            <div class="insight-content" id="insight-models-city">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+
+                        <!-- Question 2: Anos de Modelos Comercializados -->
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-number">02</div>
+                                <h4>Cronologia dos Modelos (Anos)</h4>
+                            </div>
+                            <p class="insight-desc">Todos os anos de fabricação/modelo dos carros vendidos no período de análise.</p>
+                            <div class="insight-timeline" id="insight-years-timeline">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+
+                        <!-- Question 3: Insights Populares por Cidade -->
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-number">03</div>
+                                <h4>Análise de Popularidade Local</h4>
+                            </div>
+                            <p class="insight-desc">Insight sobre os modelos de maior volume em cada cidade e seu respectivo ticket médio.</p>
+                            <div class="insight-content scrollable" id="insight-popular-city">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Raw Data Table Section -->
+                <div class="data-table-card">
+                    <div class="table-header-row">
+                        <h3><i class="fa-solid fa-list"></i> Registro Geral de Vendas</h3>
+                        <div class="table-actions">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="table-search" placeholder="Buscar por cliente, modelo, cidade...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="porsche-table" id="sales-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Modelo Porsche</th>
+                                    <th>Ano</th>
+                                    <th>Preço</th>
+                                    <th>Milhagem</th>
+                                    <th>Pagamento</th>
+                                    <th>Cidade</th>
+                                    <th>Estado</th>
+                                    <th>Vendedor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <button id="btn-prev" class="porsche-btn-icon"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span id="pagination-info">Página 1 de 10</span>
+                        <button id="btn-next" class="porsche-btn-icon"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="porsche-footer">
+            <p>© 2026 Porsche Sales Intelligence Dashboard. Todos os direitos reservados. Inspirado na estética refinada da Porsche.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
